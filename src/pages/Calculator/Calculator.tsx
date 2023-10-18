@@ -51,6 +51,21 @@ export const CalculatorPage: React.FC<Props> = (props: Props) => {
     });
   };
 
+  const reset = () => {
+    const reseted:{ [k in string]: { value: number; kcal: number } }  = {};
+
+    for (const key in values) {
+      if (values.hasOwnProperty(key)) {
+        reseted[key] = {
+          value: 0,
+          kcal: 0,
+        };
+      }
+    }
+
+    setValues(reseted);
+  }
+
   const result = Object.keys(values).reduce((acc: number, itemName: string) => {
     return acc + values[itemName].kcal;
   }, 0);
@@ -80,6 +95,9 @@ export const CalculatorPage: React.FC<Props> = (props: Props) => {
           <div className={classes.buttonContainer}>
             <Button variant="contained" onClick={sendData(result)}>
               {result} Kcal
+            </Button>
+            <Button variant="contained" onClick={reset}>
+              Reset
             </Button>
           </div>
         </div>
@@ -182,6 +200,7 @@ const styles = (theme: CustomTheme): Record<ClassNames, CSSProperties> => ({
     justifyContent: "center",
     minHeight: 36,
     flex: 1,
+    gap: 10,
     marginBottom: theme.spacing(3),
     marginTop: theme.spacing(3),
   },
